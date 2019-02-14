@@ -1,0 +1,15 @@
+/*
+在这里写你的变量。所有可用的变量都可以
+在element-ui / packages / theme-chalk / src / common / var.scss中找到。
+例如，要覆盖主题颜色
+*/
+$--color-primary: teal;
+
+/* icon font path, required */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import "~element-ui/packages/theme-chalk/src/index";
+
+.el-menu {
+    border-right: 0;
+}

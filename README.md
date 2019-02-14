@@ -25,5 +25,9 @@ npm run test
 npm run lint
 ```
 
+```
+ node: 10.14.1
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
