@@ -5,7 +5,7 @@ import { Message } from 'element-ui';
 let url: any = '';
 if (process.env.NODE_ENV == 'development') {
 
-    url = '/vueStart';
+    url = '/api';
 
 } else {
     url = '';
@@ -24,10 +24,7 @@ const http = axios.create({
 http.interceptors.request.use(config => {
 
     if (config.url !== '/login') {
-        console.log(2);
-        console.log(getToken());
         config.headers['Authorization'] = getToken();
-        console.log(config.headers['Authorization']);
     }
     return config;
 }, (error) => {

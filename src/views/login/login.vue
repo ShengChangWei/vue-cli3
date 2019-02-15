@@ -37,15 +37,12 @@
     import { Component, Vue } from 'vue-property-decorator';
     import { Md5 } from 'ts-md5/dist/md5';
     import { saveUserInfo } from "../../services/auth.service";
-    import axios from 'axios';
+    import loginService from '@/api/login.ts';
 
     @Component({
         components: {},
     })
     export default class Login extends Vue {
-
-        request: any = Vue.prototype.$http;
-
         loginForm: any = {
             userName: 'sys',
             password: '1'
@@ -59,7 +56,8 @@
                 username: this.loginForm.userName,
                 password: Md5.hashStr(this.loginForm.password)
             };
-            this.request.post('/UserController/login', params).then((data: any) => {
+
+            loginService.loginByUserName(params).then((data: any) => {
                 saveUserInfo(data.data.result);
                 const res = data.data;
                 if (res.code === 'ok') {

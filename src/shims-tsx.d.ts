@@ -11,7 +11,12 @@ declare global {
         interface IntrinsicElements {
             [elem: string]: any
         }
+
+
     }
 
+    interface window {
+        [key: string]: any;
+    }
 
 }

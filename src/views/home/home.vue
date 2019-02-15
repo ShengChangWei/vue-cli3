@@ -1,10 +1,10 @@
 <template>
 	<div class="home-content">
-		<div class="content-left">
+		<div class="content-left" :style="{background: color}">
 			<el-menu
-					default-active="1-4-1"
+					default-active="/teacher"
 					class="el-menu-vertical-demo"
-					background-color="#545c64"
+					:background-color="color"
 					text-color="#fff"
 					active-text-color="#ffd04b"
 					:collapse="isCollapse">
@@ -13,7 +13,7 @@
 						<i class="el-icon-location"></i>
 						<span slot="title">教师管理</span>
 					</template>
-					<el-menu-item index="22" @click="toPath('/teacher')">
+					<el-menu-item index="/teacher" key="/teacher" @click="toPath('/teacher')">
 						<i class="el-icon-menu"></i>
 						<span slot="title">学分制度</span>
 					</el-menu-item>
@@ -26,7 +26,7 @@
 					<i class="el-icon-document"></i>
 					<span slot="title">学院管理</span>
 				</el-menu-item>
-				<el-menu-item index="4">
+				<el-menu-item index="4" @click="testStore">
 					<i class="el-icon-setting"></i>
 					<span slot="title">系统管理</span>
 				</el-menu-item>
@@ -38,21 +38,30 @@
 					<i class="fa fa-bars" :class="{'active': isCollapse}" @click="toggleNav"></i>
 				</div>
 				<div class="pull-right user">
-					<i class="fa fa-arrows-alt" @click="fullscreen"></i>
-					<el-dropdown>
+					<div class="pull-left" style="margin-top: 10px;margin-right: 20px;">
+						<el-color-picker v-model="color" @change="change"></el-color-picker>
+					</div>
+					<div class="pull-left" style="margin-top: 18px;">
+						<i class="fa fa-arrows-alt" @click="fullscreen" style="cursor: pointer"></i>
+					</div>
+					<div class="pull-left" style="margin-top: 20px;">
+						<el-dropdown>
 					  <span class="el-dropdown-link">
 					    管理员
 					  </span>
-						<el-dropdown-menu slot="dropdown">
-							<el-dropdown-item>修改密码</el-dropdown-item>
-							<el-dropdown-item divided>
-								<span @click="logout">退出</span>
-							</el-dropdown-item>
-						</el-dropdown-menu>
-					</el-dropdown>
+							<el-dropdown-menu slot="dropdown">
+								<el-dropdown-item>修改密码</el-dropdown-item>
+								<el-dropdown-item divided>
+									<span class="logout" @click="logout">退出</span>
+								</el-dropdown-item>
+							</el-dropdown-menu>
+						</el-dropdown>
+					</div>
 				</div>
 			</div>
-			<router-view></router-view>
+			<div class="router-content" :class="{active: isCollapse}">
+				<router-view></router-view>
+			</div>
 		</div>
 	</div>
 </template>
@@ -62,25 +71,26 @@
     import { Message } from 'element-ui';
     import { removeUserInfo } from "../../services/auth.service";
     import screenfull from 'screenfull/dist/screenfull.js';
-
+    import request from '@/api/login.ts';
 
     @Component({
         components: {},
     })
     export default class Home extends Vue {
-        isCollapse: boolean = false;
+        isCollapse: any = this.$store.state.isTrue;
         request: any = Vue;
-
-        count: any;
+        bgc: any = '#ccc';
+        color: any = this.$store.state.primary;
 
         constructor() {
             super();
         }
 
         toggleNav() {
-            this.isCollapse = !this.isCollapse;
-            // console.dir(EventsServices);
-            // console.dir(EventsServices.prototype);
+            // this.isCollapse = !this.isCollapse;
+            this.$store.commit('tolggleTrue');
+            this.isCollapse = this.$store.state.isTrue;
+
         }
 
 
@@ -88,7 +98,7 @@
          * 退出登录
          */
         logout() {
-            this.request.prototype.$http.post('/UserController/logout').then((data: any) => {
+            request.logOut().then((data: any) => {
                 const res = data.data;
                 if (res.code === 'ok') {
                     Message({
@@ -102,7 +112,7 @@
             });
         }
 
-        toPath(path: string) {
+        toPath(path: any) {
             this.$router.push({path: path});
         }
 
@@ -116,6 +126,16 @@
                 });
                 return;
             }
+        }
+
+        testStore() {
+            this.$store.commit('increment');
+            console.log(this.$store.state.count);
+        }
+
+        change() {
+            // this.color = this.$store.state.primary;
+            this.$store.state.primary = this.color;
         }
     }
 </script>
@@ -133,7 +153,7 @@
 		display: flex;
 		.content-left {
 			/*width: 200px;*/
-			background-color: #545C64;
+			/*background-color: #8BE4FF;*/
 		}
 
 		.content-right {
@@ -156,12 +176,33 @@
 				}
 
 				.user {
-					margin-top: 20px;
-
+					height: 100%;
 					i {
 						font-size: 26px;
 						margin-right: 20px;
 					}
+
+					.logout {
+						display: inline-block;
+						height: 100%;
+						width: 100%;
+					}
+				}
+			}
+
+			.router-content {
+				position: absolute;
+				top: 60px;
+				bottom: 0;
+				right: 0;
+				left: 200px;
+				transition: 0.43s;
+				&.active {
+					position: absolute;
+					top: 60px;
+					bottom: 0;
+					right: 0;
+					left: 64px;
 				}
 			}
 		}

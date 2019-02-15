@@ -1,35 +1,41 @@
 <template>
-	<div class="hello">
-		学分制度
+	<div id="map" :style="{color:textColor}">
+
 	</div>
 </template>
 
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator';
+    // import { mapState } from 'vuex';
+    // import loadEsriModules from '@/components/map/mapLoader';
 
     @Component
     export default class Index extends Vue {
-        @Prop() private msg!: string;
+        // textColor: any = this.$store.state.primary;
+        // map: any;
+        window: any;
+
+        get textColor() {
+            return this.$store.state.primary;
+        }
+
+        mounted() {
+            window['require'](["esri/map", "dojo/domReady!"], (Map: any) => {
+                new Map("map", {
+                    basemap: "topo",
+                    center: [-122.45, 37.75],
+                    zoom: 13
+                });
+            });
+        }
+
+
     }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-	h3 {
-		margin: 40px 0 0;
-	}
-
-	ul {
-		list-style-type: none;
-		padding: 0;
-	}
-
-	li {
-		display: inline-block;
-		margin: 0 10px;
-	}
-
-	a {
-		color: #42B983;
+	#map {
+		height: 100%;
 	}
 </style>

@@ -32,12 +32,12 @@ module.exports = {
     },
     devServer: {
         proxy: {
-            '/vueStart': {
+            '/api': {
                 target: 'http://192.168.0.8:6389',
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/vueStart': ''
+                    '^/api': ''
                 }
             }
         }

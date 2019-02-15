@@ -6,3 +6,5 @@ declare module '*.vue' {
 
 // declare module '*.js'
 declare module 'screenfull/dist/screenfull.js'
+
+declare module 'echarts'
