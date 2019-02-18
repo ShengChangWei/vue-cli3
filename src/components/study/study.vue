@@ -5,21 +5,25 @@
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator';
     import echarts from 'echarts';
-
+    import Animal from '@/components/TypeScript/typeScript-demo';
 
 
     @Component
     export default class Index extends Vue {
-        keyboardChart: HTMLCanvasElement;
+        keyboardChart: any;
         chart: any = null;
+        animal: Animal = new Animal();
 
         constructor() {
             super();
-            this.keyboardChart = new HTMLCanvasElement();
+            this.animal.getAnmailName();
+
+
         }
 
         mounted() {
-            console.dir(HTMLCanvasElement);
+            // this.animal = new Animal();
+            this.animal.getAnmailName();
             this.initChart();
         }
 

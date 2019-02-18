@@ -1,15 +1,42 @@
 <template>
 	<div class="hello">
-		学院管理
+		<evueesrimap
+
+				:mapUrl="mapUrl"></evueesrimap>
+		<EmitService @changeNum="testEmit($event)"></EmitService>
+		<div>{{num}}</div>
+		<div v-if="num<6">
+			<el-switch
+					active-color="#13ce66"
+					inactive-color="#ff4949">
+			</el-switch>
+		</div>
+
 	</div>
 </template>
 
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator';
+    import evueesrimap from '@/components/e-vue-esrimap/e-vue-esrimap.vue';
+    import EmitService from '@/components/emit-demo/emit-demo.vue';
 
-    @Component
+    @Component({
+        components: {
+            evueesrimap,
+            EmitService
+        }
+    })
     export default class Index extends Vue {
         @Prop() private msg!: string;
+        testMsg: string = '测试组件传值,哈哈组件传值成功';
+        isTrue: boolean;
+        num: any = 0;
+        mapUrl: any = ['img', 'cia'];
+
+        testEmit(event) {
+            console.log(event);
+            this.num = event;
+        }
     }
 </script>
 

@@ -10,13 +10,16 @@ declare global {
 
         interface IntrinsicElements {
             [elem: string]: any
+            [elem: number]: any
         }
 
 
     }
 
-    interface window {
-        [key: string]: any;
-    }
 
 }
+
+declare var Window: {
+    prototype: Window;
+    new(): Window;
+};
